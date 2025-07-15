@@ -32,17 +32,55 @@ namespace paimonDotMoeCompanion
 
         private readonly string[] blockedHosts = new[]
         {
+            // Google Ads
             "doubleclick.net",
             "googleads.g.doubleclick.net",
-            "ads.pubmatic.com",
             "adservice.google.com",
             "pagead2.googlesyndication.com",
+            "tpc.googlesyndication.com",
             "googlesyndication.com",
-            "ads.yahoo.com",
-            "adnxs.com",
+            "google-analytics.com",
+
+            // Facebook/Meta
             "facebook.com/tr",
-            "tpc.googlesyndication.com"
+            "connect.facebook.net",
+            "facebook.net",
+            "fbcdn.net",
+
+            // Microsoft/Bing
+            "bat.bing.com",
+            "c.bing.com",
+
+            // Yahoo/Verizon
+            "ads.yahoo.com",
+            "gemini.yahoo.com",
+
+            // Amazon
+            "aax.amazon-adsystem.com",
+
+            // Other ad providers
+            "ads.pubmatic.com",
+            "adnxs.com",
+            "adform.net",
+            "adroll.com",
+            "taboola.com",
+            "outbrain.com",
+            "criteo.com",
+            "scorecardresearch.com",
+            "mathtag.com",
+            "openx.net",
+            "yieldmo.com",
+            "zdbb.net",
+            "moatads.com",
+            "casalemedia.com",
+            "revcontent.com",
+            "tradedoubler.com",
+            "bluekai.com",
+            "tracking",
+            "tracker",
+            "clicksor.com"
         };
+
 
 
         private void TxtLink_KeyDown(object sender, KeyEventArgs e)

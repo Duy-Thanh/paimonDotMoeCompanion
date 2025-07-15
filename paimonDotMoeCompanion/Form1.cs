@@ -63,7 +63,7 @@ namespace paimonDotMoeCompanion
         private void Form1_Load(object sender, EventArgs e)
         {
             AutoUpdater.Start("https://duy-thanh.github.io/paimonDotMoeCompanion/update.xml");
-            AutoUpdater.Mandatory = true; // set to true if force update
+            AutoUpdater.Mandatory = false; // set to true if force update
             AutoUpdater.ShowSkipButton = false;
             AutoUpdater.ReportErrors = true;
 
