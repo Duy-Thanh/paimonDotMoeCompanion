@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Web.WebView2.Core;
+using ReaLTaiizor.Forms;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,7 +11,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ReaLTaiizor.Forms;
 
 namespace paimonDotMoeCompanion
 {
@@ -116,7 +117,10 @@ namespace paimonDotMoeCompanion
 
         private async void InitializeAsync()
         {
-            await webView21.EnsureCoreWebView2Async(null);
+            var env = await CoreWebView2Environment.CreateAsync(null,
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PaimonDotMoeCompanion", "WebView2"));
+
+            await webView21.EnsureCoreWebView2Async(env);
 
             webView21.CoreWebView2.NavigationStarting += (s, e) =>
             {
