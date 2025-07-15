@@ -1,4 +1,5 @@
-﻿using ReaLTaiizor.Forms;
+﻿using AutoUpdaterDotNET;
+using ReaLTaiizor.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -34,6 +36,8 @@ namespace paimonDotMoeCompanion
         {
             InitializeComponent();
 
+            this.Load += Form1_Load;
+
             rtbLog.ReadOnly = true;
 
             logger = new Logger(rtbLog);
@@ -54,6 +58,16 @@ namespace paimonDotMoeCompanion
             RegionSelected = (cbbRegion.SelectedIndex == 0) ? "global" : "china";
             logger.Log("Region Selected: " + ((cbbRegion.SelectedIndex == 0) ? "Global" : "China"), LogLevel.Info);
             RegionSelectedIndex = cbbRegion.SelectedIndex;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            AutoUpdater.Start("https://duy-thanh.github.io/paimonDotMoeCompanion/update.xml");
+            AutoUpdater.Mandatory = true; // set to true if force update
+            AutoUpdater.ShowSkipButton = false;
+            AutoUpdater.ReportErrors = true;
+
+            Thread.Sleep(100);
         }
 
         private void btnCopyToClipboard_Click(object sender, EventArgs e)
