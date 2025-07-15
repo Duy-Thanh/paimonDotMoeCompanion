@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AutoUpdaterDotNET; // Import the namespace
 
 namespace paimonDotMoeCompanion
 {
@@ -16,6 +17,7 @@ namespace paimonDotMoeCompanion
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            AutoUpdater.Start("https://https://duy-thanh.github.io/paimonDotMoeCompanion/update.xml");
             Application.Run(new Form1());
         }
     }
