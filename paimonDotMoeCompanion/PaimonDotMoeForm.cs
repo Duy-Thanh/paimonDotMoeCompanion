@@ -106,6 +106,20 @@ namespace paimonDotMoeCompanion
                 this.Text = webView21.CoreWebView2.DocumentTitle;
                 this.Invalidate();
                 txtLink.Text = webView21.CoreWebView2.Source;
+
+                string adBlockScript = @"
+                    const styles = document.createElement('style');
+                    styles.innerHTML = `
+                        iframe[src*='ads'],
+                        div[class*='ad'],
+                        [id*='ad'], .adsbygoogle, .sponsored {
+                            display: none !important;
+                        }
+                    `;
+                    document.head.appendChild(styles);
+                ";
+
+                Task.Run(() => webView21.ExecuteScriptAsync(adBlockScript));
             };
 
             webView21.CoreWebView2.AddWebResourceRequestedFilter("*",

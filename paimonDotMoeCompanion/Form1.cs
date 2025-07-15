@@ -78,11 +78,16 @@ namespace paimonDotMoeCompanion
 
                 MessageBox.Show("Link copied to clipboard.\n\nPlease go to paimon.moe/wish/import and paste the link in step 11!",
                         "Copy to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                logger.Log("Link copied to clipboard.\n\nPlease go to paimon.moe/wish/import and paste the link in step 11!", LogLevel.Info);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Failed to copy link to clipboard.\n\nPlease try again!\n\nException:\n" + ex.Message,
                         "Copy to clipboard", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                logger.Log("Failed to copy link to clipboard.\n\nPlease try again!\n\nException:\n" + ex.Message + "\n\nStacktrace:\n" + ex.StackTrace,
+                    LogLevel.Info);
             }
         }
 

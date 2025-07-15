@@ -57,7 +57,7 @@
             this.panel1.Controls.Add(this.btnBack);
             this.panel1.Location = new System.Drawing.Point(5, 31);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1050, 54);
+            this.panel1.Size = new System.Drawing.Size(1238, 54);
             this.panel1.TabIndex = 0;
             // 
             // txtLink
@@ -66,7 +66,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLink.Location = new System.Drawing.Point(117, 12);
             this.txtLink.Name = "txtLink";
-            this.txtLink.Size = new System.Drawing.Size(880, 29);
+            this.txtLink.Size = new System.Drawing.Size(1068, 29);
             this.txtLink.TabIndex = 7;
             this.txtLink.Text = "https://paimon.moe";
             // 
@@ -74,7 +74,7 @@
             // 
             this.btnClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnClose.Image = global::paimonDotMoeCompanion.Properties.Resources.close;
-            this.btnClose.Location = new System.Drawing.Point(1004, 10);
+            this.btnClose.Location = new System.Drawing.Point(1192, 10);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(32, 33);
             this.btnClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -123,7 +123,7 @@
             this.panel2.Controls.Add(this.webView21);
             this.panel2.Location = new System.Drawing.Point(5, 86);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1050, 588);
+            this.panel2.Size = new System.Drawing.Size(1238, 745);
             this.panel2.TabIndex = 1;
             // 
             // webView21
@@ -134,7 +134,7 @@
             this.webView21.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webView21.Location = new System.Drawing.Point(0, 0);
             this.webView21.Name = "webView21";
-            this.webView21.Size = new System.Drawing.Size(1050, 588);
+            this.webView21.Size = new System.Drawing.Size(1238, 745);
             this.webView21.TabIndex = 0;
             this.webView21.ZoomFactor = 1D;
             // 
@@ -142,7 +142,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1060, 679);
+            this.ClientSize = new System.Drawing.Size(1248, 836);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
