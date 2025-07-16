@@ -16,12 +16,14 @@ namespace paimonDotMoeCompanion
 {
     public partial class PaimonDotMoeForm : LostForm
     {
+        private CoreWebView2Environment _webViewEnvironment;
+        private bool _disposed = false;
+
         public PaimonDotMoeForm()
         {
             this.ShowInTaskbar = false;
 
             this.FormClosing += PaimonDotMoeForm_FormClosing;
-
             this.FormClosed += PaimonDotMoeForm_FormClosed;
 
             InitializeComponent();
@@ -35,8 +37,54 @@ namespace paimonDotMoeCompanion
 
         private void PaimonDotMoeForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            webView21.Dispose();
-            this.Dispose();
+            CleanupWebView();
+        }
+
+        private void PaimonDotMoeForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            // Cleanup will happen in FormClosed
+        }
+
+        private void CleanupWebView()
+        {
+            if (_disposed) return;
+            _disposed = true;
+
+            try
+            {
+                if (webView21?.CoreWebView2 != null)
+                {
+                    // Unsubscribe from all events
+                    webView21.CoreWebView2.NavigationStarting -= OnNavigationStarting;
+                    webView21.CoreWebView2.SourceChanged -= OnSourceChanged;
+                    webView21.CoreWebView2.DocumentTitleChanged -= OnDocumentTitleChanged;
+                    webView21.CoreWebView2.NavigationCompleted -= OnNavigationCompleted;
+                    webView21.CoreWebView2.WebResourceRequested -= OnWebResourceRequested;
+
+                    // Navigate to about:blank to stop any ongoing processes
+                    try
+                    {
+                        webView21.CoreWebView2.Navigate("about:blank");
+                    }
+                    catch { /* Ignore navigation errors during cleanup */ }
+                }
+
+                // Dispose WebView2 control
+                webView21?.Dispose();
+
+                // Set environment reference to null (it's managed by WebView2 runtime)
+                _webViewEnvironment = null;
+
+                // Force garbage collection
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception but don't throw
+                System.Diagnostics.Debug.WriteLine($"Error during cleanup: {ex.Message}");
+            }
         }
 
         private readonly string[] blockedHosts = new[]
@@ -90,8 +138,6 @@ namespace paimonDotMoeCompanion
             "clicksor.com"
         };
 
-
-
         private void TxtLink_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -117,64 +163,97 @@ namespace paimonDotMoeCompanion
             }
         }
 
-        private void PaimonDotMoeForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            webView21.Dispose();
-        }
-
         private async void InitializeAsync()
         {
-            var env = await CoreWebView2Environment.CreateAsync(null,
-                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PaimonDotMoeCompanion", "WebView2"));
-
-            await webView21.EnsureCoreWebView2Async(env);
-
-            webView21.CoreWebView2.NavigationStarting += (s, e) =>
+            try
             {
-                txtLink.Text = e.Uri;
-                this.Text = webView21.CoreWebView2.DocumentTitle;
-                this.Invalidate();
-            };
+                _webViewEnvironment = await CoreWebView2Environment.CreateAsync(null,
+                    Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "PaimonDotMoeCompanion", "WebView2"));
 
-            webView21.CoreWebView2.SourceChanged += (s, e) =>
+                await webView21.EnsureCoreWebView2Async(_webViewEnvironment);
+
+                // Subscribe to events using separate methods for easier cleanup
+                webView21.CoreWebView2.NavigationStarting += OnNavigationStarting;
+                webView21.CoreWebView2.SourceChanged += OnSourceChanged;
+                webView21.CoreWebView2.DocumentTitleChanged += OnDocumentTitleChanged;
+                webView21.CoreWebView2.NavigationCompleted += OnNavigationCompleted;
+
+                webView21.CoreWebView2.AddWebResourceRequestedFilter("*",
+                    Microsoft.Web.WebView2.Core.CoreWebView2WebResourceContext.All);
+
+                webView21.CoreWebView2.WebResourceRequested += OnWebResourceRequested;
+
+                webView21.CoreWebView2.Navigate("https://paimon.moe");
+            }
+            catch (Exception ex)
             {
-                this.Text = webView21.CoreWebView2.DocumentTitle;
-                this.Invalidate();
-                txtLink.Text = webView21.CoreWebView2.Source;
-            };
+                MessageBox.Show($"Failed to initialize WebView2: {ex.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-            webView21.CoreWebView2.DocumentTitleChanged += (s, e) =>
+        private void OnNavigationStarting(object sender, CoreWebView2NavigationStartingEventArgs e)
+        {
+            if (_disposed) return;
+
+            txtLink.Text = e.Uri;
+            this.Text = webView21.CoreWebView2.DocumentTitle;
+            this.Invalidate();
+        }
+
+        private void OnSourceChanged(object sender, CoreWebView2SourceChangedEventArgs e)
+        {
+            if (_disposed) return;
+
+            this.Text = webView21.CoreWebView2.DocumentTitle;
+            this.Invalidate();
+            txtLink.Text = webView21.CoreWebView2.Source;
+        }
+
+        private void OnDocumentTitleChanged(object sender, object e)
+        {
+            if (_disposed) return;
+
+            this.Text = webView21.CoreWebView2.DocumentTitle;
+            this.Invalidate();
+        }
+
+        private async void OnNavigationCompleted(object sender, CoreWebView2NavigationCompletedEventArgs e)
+        {
+            if (_disposed) return;
+
+            // Fallback in case others fail
+            this.Text = webView21.CoreWebView2.DocumentTitle;
+            this.Invalidate();
+            txtLink.Text = webView21.CoreWebView2.Source;
+
+            string adBlockScript = @"
+                const styles = document.createElement('style');
+                styles.innerHTML = `
+                    iframe[src*='ads'],
+                    div[class*='ad'],
+                    [id*='ad'], .adsbygoogle, .sponsored {
+                        display: none !important;
+                    }
+                `;
+                document.head.appendChild(styles);
+            ";
+
+            try
             {
-                this.Text = webView21.CoreWebView2.DocumentTitle;
-                this.Invalidate();
-            };
-
-            webView21.CoreWebView2.NavigationCompleted += (s, e) =>
+                await webView21.ExecuteScriptAsync(adBlockScript);
+            }
+            catch (Exception ex)
             {
-                // Fallback in case others fail
-                this.Text = webView21.CoreWebView2.DocumentTitle;
-                this.Invalidate();
-                txtLink.Text = webView21.CoreWebView2.Source;
+                System.Diagnostics.Debug.WriteLine($"Error executing ad block script: {ex.Message}");
+            }
+        }
 
-                string adBlockScript = @"
-                    const styles = document.createElement('style');
-                    styles.innerHTML = `
-                        iframe[src*='ads'],
-                        div[class*='ad'],
-                        [id*='ad'], .adsbygoogle, .sponsored {
-                            display: none !important;
-                        }
-                    `;
-                    document.head.appendChild(styles);
-                ";
+        private void OnWebResourceRequested(object sender, CoreWebView2WebResourceRequestedEventArgs e)
+        {
+            if (_disposed) return;
 
-                Task.Run(() => webView21.ExecuteScriptAsync(adBlockScript));
-            };
-
-            webView21.CoreWebView2.AddWebResourceRequestedFilter("*",
-                Microsoft.Web.WebView2.Core.CoreWebView2WebResourceContext.All);
-
-            webView21.CoreWebView2.WebResourceRequested += (s, e) =>
+            try
             {
                 Uri uri = new Uri(e.Request.Uri);
 
@@ -183,9 +262,11 @@ namespace paimonDotMoeCompanion
                     e.Response = webView21.CoreWebView2.Environment.CreateWebResourceResponse(
                         Stream.Null, 403, "Blocked", "Content-Type: text/plain");
                 }
-            };
-
-            webView21.CoreWebView2.Navigate("https://paimon.moe");
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error in WebResourceRequested: {ex.Message}");
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -213,5 +294,9 @@ namespace paimonDotMoeCompanion
         {
             webView21.Reload();
         }
+
+        // Note: Dispose method is already defined in the designer file
+        // You need to modify the existing Dispose method in PaimonDotMoeForm.Designer.cs
+        // to include the cleanup call before components.Dispose():
     }
 }

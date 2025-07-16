@@ -22,7 +22,6 @@ namespace paimonDotMoeCompanion
 
         public int RegionSelectedIndex { get; set; }
 
-
         unsafe void PrintObjectAddress(object obj)
         {
             TypedReference tr = __makeref(obj);
