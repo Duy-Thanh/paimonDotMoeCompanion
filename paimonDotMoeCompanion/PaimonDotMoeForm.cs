@@ -294,9 +294,5 @@ namespace paimonDotMoeCompanion
         {
             webView21.Reload();
         }
-
-        // Note: Dispose method is already defined in the designer file
-        // You need to modify the existing Dispose method in PaimonDotMoeForm.Designer.cs
-        // to include the cleanup call before components.Dispose():
     }
 }
