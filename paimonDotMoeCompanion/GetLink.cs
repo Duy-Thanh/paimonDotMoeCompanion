@@ -72,7 +72,6 @@ namespace paimonDotMoeCompanion
                 while ((line = sr.ReadLine()) != null)
                 {
                     logs.Add(line);
-                    //logger?.Log(line);
                 }
             }
 

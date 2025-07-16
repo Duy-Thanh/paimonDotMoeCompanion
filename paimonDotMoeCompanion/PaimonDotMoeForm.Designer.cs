@@ -64,9 +64,9 @@
             // 
             this.txtLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLink.Location = new System.Drawing.Point(117, 12);
+            this.txtLink.Location = new System.Drawing.Point(128, 12);
             this.txtLink.Name = "txtLink";
-            this.txtLink.Size = new System.Drawing.Size(1068, 29);
+            this.txtLink.Size = new System.Drawing.Size(1049, 29);
             this.txtLink.TabIndex = 7;
             this.txtLink.Text = "https://paimon.moe";
             // 

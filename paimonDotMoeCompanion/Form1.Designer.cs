@@ -43,6 +43,7 @@
             this.btnClearAllLogs = new ReaLTaiizor.Controls.CyberButton();
             this.rtbLog = new System.Windows.Forms.RichTextBox();
             this.btnStart = new ReaLTaiizor.Controls.CyberButton();
+            this.lnkAbout = new ReaLTaiizor.Controls.NightLinkLabel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -81,7 +82,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.Control;
-            this.label1.Location = new System.Drawing.Point(16, 199);
+            this.label1.Location = new System.Drawing.Point(16, 244);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(708, 231);
             this.label1.TabIndex = 3;
@@ -91,7 +92,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.ForeColor = System.Drawing.SystemColors.Control;
-            this.label3.Location = new System.Drawing.Point(16, 507);
+            this.label3.Location = new System.Drawing.Point(16, 553);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 21);
             this.label3.TabIndex = 5;
@@ -113,7 +114,7 @@
             this.txtLink.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
             this.txtLink.Lighting = false;
             this.txtLink.LinearGradientPen = false;
-            this.txtLink.Location = new System.Drawing.Point(88, 497);
+            this.txtLink.Location = new System.Drawing.Point(88, 543);
             this.txtLink.Name = "txtLink";
             this.txtLink.PenWidth = 15;
             this.txtLink.RGB = false;
@@ -153,7 +154,7 @@
             this.btnCopyToClipboard.Lighting = false;
             this.btnCopyToClipboard.LinearGradient_Background = false;
             this.btnCopyToClipboard.LinearGradientPen = false;
-            this.btnCopyToClipboard.Location = new System.Drawing.Point(648, 497);
+            this.btnCopyToClipboard.Location = new System.Drawing.Point(648, 543);
             this.btnCopyToClipboard.Name = "btnCopyToClipboard";
             this.btnCopyToClipboard.PenWidth = 15;
             this.btnCopyToClipboard.Rounding = true;
@@ -194,7 +195,7 @@
             this.btnOpenPaimonDotMoe.Lighting = false;
             this.btnOpenPaimonDotMoe.LinearGradient_Background = false;
             this.btnOpenPaimonDotMoe.LinearGradientPen = false;
-            this.btnOpenPaimonDotMoe.Location = new System.Drawing.Point(417, 549);
+            this.btnOpenPaimonDotMoe.Location = new System.Drawing.Point(417, 607);
             this.btnOpenPaimonDotMoe.Name = "btnOpenPaimonDotMoe";
             this.btnOpenPaimonDotMoe.PenWidth = 15;
             this.btnOpenPaimonDotMoe.Rounding = true;
@@ -213,7 +214,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.ForeColor = System.Drawing.SystemColors.Control;
-            this.label2.Location = new System.Drawing.Point(16, 454);
+            this.label2.Location = new System.Drawing.Point(16, 500);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(66, 21);
             this.label2.TabIndex = 9;
@@ -244,7 +245,7 @@
             this.cbbRegion.Items.AddRange(new object[] {
             "Global",
             "China"});
-            this.cbbRegion.Location = new System.Drawing.Point(88, 454);
+            this.cbbRegion.Location = new System.Drawing.Point(88, 500);
             this.cbbRegion.Name = "cbbRegion";
             this.cbbRegion.Size = new System.Drawing.Size(690, 26);
             this.cbbRegion.StartIndex = 0;
@@ -255,7 +256,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.ForeColor = System.Drawing.SystemColors.Control;
-            this.label4.Location = new System.Drawing.Point(16, 630);
+            this.label4.Location = new System.Drawing.Point(16, 687);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(39, 21);
             this.label4.TabIndex = 12;
@@ -287,7 +288,7 @@
             this.btnClearAllLogs.Lighting = false;
             this.btnClearAllLogs.LinearGradient_Background = false;
             this.btnClearAllLogs.LinearGradientPen = false;
-            this.btnClearAllLogs.Location = new System.Drawing.Point(594, 620);
+            this.btnClearAllLogs.Location = new System.Drawing.Point(594, 677);
             this.btnClearAllLogs.Name = "btnClearAllLogs";
             this.btnClearAllLogs.PenWidth = 15;
             this.btnClearAllLogs.Rounding = true;
@@ -308,9 +309,9 @@
             this.rtbLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.rtbLog.Font = new System.Drawing.Font("Consolas", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.rtbLog.ForeColor = System.Drawing.Color.White;
-            this.rtbLog.Location = new System.Drawing.Point(20, 666);
+            this.rtbLog.Location = new System.Drawing.Point(20, 723);
             this.rtbLog.Name = "rtbLog";
-            this.rtbLog.Size = new System.Drawing.Size(758, 149);
+            this.rtbLog.Size = new System.Drawing.Size(758, 160);
             this.rtbLog.TabIndex = 15;
             this.rtbLog.Text = "";
             // 
@@ -340,7 +341,7 @@
             this.btnStart.Lighting = false;
             this.btnStart.LinearGradient_Background = false;
             this.btnStart.LinearGradientPen = false;
-            this.btnStart.Location = new System.Drawing.Point(20, 549);
+            this.btnStart.Location = new System.Drawing.Point(20, 607);
             this.btnStart.Name = "btnStart";
             this.btnStart.PenWidth = 15;
             this.btnStart.Rounding = true;
@@ -355,11 +356,30 @@
             this.btnStart.Timer_RGB = 300;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
+            // lnkAbout
+            // 
+            this.lnkAbout.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(89)))), ((int)(((byte)(84)))));
+            this.lnkAbout.AutoSize = true;
+            this.lnkAbout.BackColor = System.Drawing.Color.Transparent;
+            this.lnkAbout.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.lnkAbout.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lnkAbout.LinkBehavior = System.Windows.Forms.LinkBehavior.HoverUnderline;
+            this.lnkAbout.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(93)))), ((int)(((byte)(89)))));
+            this.lnkAbout.Location = new System.Drawing.Point(323, 203);
+            this.lnkAbout.Name = "lnkAbout";
+            this.lnkAbout.Size = new System.Drawing.Size(142, 21);
+            this.lnkAbout.TabIndex = 18;
+            this.lnkAbout.TabStop = true;
+            this.lnkAbout.Text = "About this project...";
+            this.lnkAbout.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(254)))), ((int)(((byte)(89)))), ((int)(((byte)(84)))));
+            this.lnkAbout.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkAbout_LinkClicked);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 837);
+            this.ClientSize = new System.Drawing.Size(800, 906);
+            this.Controls.Add(this.lnkAbout);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.rtbLog);
             this.Controls.Add(this.btnClearAllLogs);
@@ -403,6 +423,7 @@
         private ReaLTaiizor.Controls.CyberButton btnClearAllLogs;
         private System.Windows.Forms.RichTextBox rtbLog;
         private ReaLTaiizor.Controls.CyberButton btnStart;
+        private ReaLTaiizor.Controls.NightLinkLabel lnkAbout;
     }
 }
 
