@@ -22,6 +22,8 @@ namespace paimonDotMoeCompanion
 
             this.FormClosing += PaimonDotMoeForm_FormClosing;
 
+            this.FormClosed += PaimonDotMoeForm_FormClosed;
+
             InitializeComponent();
 
             InitializeAsync();
@@ -29,6 +31,12 @@ namespace paimonDotMoeCompanion
             btnBack.Cursor = btnForward.Cursor = btnReload.Cursor = btnClose.Cursor = Cursors.Hand;
 
             txtLink.KeyDown += TxtLink_KeyDown;
+        }
+
+        private void PaimonDotMoeForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            webView21.Dispose();
+            this.Dispose();
         }
 
         private readonly string[] blockedHosts = new[]
@@ -112,7 +120,6 @@ namespace paimonDotMoeCompanion
         private void PaimonDotMoeForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             webView21.Dispose();
-            this.Dispose();
         }
 
         private async void InitializeAsync()
