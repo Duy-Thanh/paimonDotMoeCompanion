@@ -28,7 +28,7 @@ namespace paimonDotMoeCompanion
             IntPtr* ptr = (IntPtr*)*(IntPtr*)&tr;
             IntPtr address = *ptr;
 
-            logger.Log($"Object address: 0x{address.ToString("X")}", LogLevel.Info);
+            //logger.Log($"Object address: 0x{address.ToString("X")}", LogLevel.Info);
         }
 
         public Form1()
