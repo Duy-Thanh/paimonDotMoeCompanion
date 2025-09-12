@@ -2,7 +2,7 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "paimonDotMoeCompanion"
-!define PRODUCT_VERSION "1.0.0.9"
+!define PRODUCT_VERSION "1.0.1.0"
 !define PRODUCT_PUBLISHER "@Nekkochan (Duy Thanh)"
 !define PRODUCT_WEB_SITE "https://github.com/Duy-Thanh/PaimonDotMoeCompanion"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\paimonDotMoeCompanion.exe"
@@ -46,7 +46,7 @@ var ICONS_GROUP
 !insertmacro MUI_PAGE_INSTFILES
 ; Finish page
 !define MUI_FINISHPAGE_RUN "$INSTDIR\paimonDotMoeCompanion.exe"
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\changelog.html"
+!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.md"
 !insertmacro MUI_PAGE_FINISH
 
 ; Uninstaller pages
@@ -109,7 +109,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "paimonDotMoeCompanionSetup.exe"
+OutFile "Setup.exe"
 InstallDir "$PROGRAMFILES\paimonDotMoeCompanion"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -119,12 +119,13 @@ Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
-Section "Core Application" SEC01
+Section "Core Application Files" SEC01
   SetOutPath "$INSTDIR\ar"
   SetOverwrite try
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\ar\AutoUpdater.NET.resources.dll"
   SetOutPath "$INSTDIR"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\AutoUpdater.NET.dll"
+  File "..\..\paimonDotMoeCompanion\bin\x64\Release\AutoUpdater.NET.pdb"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\AutoUpdater.NET.xml"
   SetOutPath "$INSTDIR\cs"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\cs\AutoUpdater.NET.resources.dll"
@@ -158,8 +159,11 @@ Section "Core Application" SEC01
   SetOutPath "$INSTDIR\nl"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\nl\AutoUpdater.NET.resources.dll"
   SetOutPath "$INSTDIR"
+  File "..\..\paimonDotMoeCompanion\bin\x64\Release\OSVersionExt.dll"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\paimonDotMoeCompanion.exe"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\paimonDotMoeCompanion.exe.config"
+  File "..\..\paimonDotMoeCompanion\bin\x64\Release\paimonDotMoeCompanion.pdb"
+  File "..\..\paimonDotMoeCompanion\bin\x64\Release\paimonDotMoeCompanion.xml"
   SetOutPath "$INSTDIR\pl"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\pl\AutoUpdater.NET.resources.dll"
   SetOutPath "$INSTDIR"
@@ -206,7 +210,6 @@ Section "Core Application" SEC01
   SetOutPath "$INSTDIR"
   SetOverwrite ifnewer
   File "..\..\README.md"
-  File "..\..\LICENSE.txt"
   File "..\..\changelog.html"
 
 ; Shortcuts
@@ -238,7 +241,7 @@ SectionEnd
 
 ; Section descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-  !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Application core files (required)"
+  !insertmacro MUI_DESCRIPTION_TEXT ${SEC01} "Core Application Files (Required)"
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 
@@ -258,7 +261,6 @@ Section Uninstall
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
   Delete "$INSTDIR\changelog.html"
-  Delete "$INSTDIR\LICENSE.txt"
   Delete "$INSTDIR\README.md"
   Delete "$INSTDIR\zh-TW\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\zh\AutoUpdater.NET.resources.dll"
@@ -288,8 +290,11 @@ Section Uninstall
   Delete "$INSTDIR\pt\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\PresentationFramework.dll"
   Delete "$INSTDIR\pl\AutoUpdater.NET.resources.dll"
+  Delete "$INSTDIR\paimonDotMoeCompanion.xml"
+  Delete "$INSTDIR\paimonDotMoeCompanion.pdb"
   Delete "$INSTDIR\paimonDotMoeCompanion.exe.config"
   Delete "$INSTDIR\paimonDotMoeCompanion.exe"
+  Delete "$INSTDIR\OSVersionExt.dll"
   Delete "$INSTDIR\nl\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\Newtonsoft.Json.xml"
   Delete "$INSTDIR\Newtonsoft.Json.dll"
@@ -311,6 +316,7 @@ Section Uninstall
   Delete "$INSTDIR\da\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\cs\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\AutoUpdater.NET.xml"
+  Delete "$INSTDIR\AutoUpdater.NET.pdb"
   Delete "$INSTDIR\AutoUpdater.NET.dll"
   Delete "$INSTDIR\ar\AutoUpdater.NET.resources.dll"
 
