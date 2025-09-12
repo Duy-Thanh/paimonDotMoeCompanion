@@ -147,6 +147,7 @@
             this.Controls.Add(this.panel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Image = global::paimonDotMoeCompanion.Properties.Resources.image1;
+            this.MinimizeBox = false;
             this.Name = "PaimonDotMoeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.panel1.ResumeLayout(false);

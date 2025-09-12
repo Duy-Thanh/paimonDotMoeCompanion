@@ -22,6 +22,33 @@ namespace paimonDotMoeCompanion
 
         public int RegionSelectedIndex { get; set; }
 
+        public bool IsWindows11 { get; set; }
+
+        // The enum flag for DwmSetWindowAttribute's second parameter, which tells the function what attribute to set.
+        // Copied from dwmapi.h
+        public enum DWMWINDOWATTRIBUTE
+        {
+            DWMWA_WINDOW_CORNER_PREFERENCE = 33
+        }
+
+        // The DWM_WINDOW_CORNER_PREFERENCE enum for DwmSetWindowAttribute's third parameter, which tells the function
+        // what value of the enum to set.
+        // Copied from dwmapi.h
+        public enum DWM_WINDOW_CORNER_PREFERENCE
+        {
+            DWMWCP_DEFAULT = 0,
+            DWMWCP_DONOTROUND = 1,
+            DWMWCP_ROUND = 2,
+            DWMWCP_ROUNDSMALL = 3
+        }
+
+        // Import dwmapi.dll and define DwmSetWindowAttribute in C# corresponding to the native function.
+        [DllImport("dwmapi.dll", CharSet = CharSet.Unicode, PreserveSig = false)]
+        internal static extern void DwmSetWindowAttribute(IntPtr hwnd,
+                                                         DWMWINDOWATTRIBUTE attribute,
+                                                         ref DWM_WINDOW_CORNER_PREFERENCE pvAttribute,
+                                                         uint cbAttribute);
+
         unsafe void PrintObjectAddress(object obj)
         {
             TypedReference tr = __makeref(obj);
@@ -31,17 +58,33 @@ namespace paimonDotMoeCompanion
             //logger.Log($"Object address: 0x{address.ToString("X")}", LogLevel.Info);
         }
 
-        public Form1()
+        public Form1(bool IsWindows11Detected)
         {
             InitializeComponent();
 
+            IsWindows11 = IsWindows11Detected;
+
             this.Load += Form1_Load;
+            this.FormClosing += Form1_FormClosing;
 
             rtbLog.ReadOnly = true;
 
             logger = new Logger(rtbLog);
 
             logger.Log("Log system initialized", LogLevel.Info);
+
+            if (IsWindows11Detected)
+            {
+                logger.Log("You are using Windows 11", LogLevel.Success);
+                var attribute = DWMWINDOWATTRIBUTE.DWMWA_WINDOW_CORNER_PREFERENCE;
+                var preference = DWM_WINDOW_CORNER_PREFERENCE.DWMWCP_ROUND;
+                DwmSetWindowAttribute(this.Handle,
+                    attribute, ref preference, sizeof(uint));
+            }
+            else
+            {
+                logger.Log("You are not using Windows 11", LogLevel.Success);
+            }
 
             PrintObjectAddress(logger);
 
@@ -57,6 +100,19 @@ namespace paimonDotMoeCompanion
             RegionSelected = (cbbRegion.SelectedIndex == 0) ? "global" : "china";
             logger.Log("Region Selected: " + ((cbbRegion.SelectedIndex == 0) ? "Global" : "China"), LogLevel.Info);
             RegionSelectedIndex = cbbRegion.SelectedIndex;
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to exit?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            }
+            else
+            {
+                e.Cancel = false;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -96,7 +152,7 @@ namespace paimonDotMoeCompanion
         private void btnOpenPaimonDotMoe_Click(object sender, EventArgs e)
         {
             logger.Log("Starting in-app web browser window...", LogLevel.Info);
-            PaimonDotMoeForm frm = new PaimonDotMoeForm();
+            PaimonDotMoeForm frm = new PaimonDotMoeForm(IsWindows11);
             frm.ShowDialog();
             logger.Log("In-app web browser window closed", LogLevel.Info);
         }
