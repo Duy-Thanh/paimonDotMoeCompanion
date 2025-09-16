@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("CyberDay Studios")]
 [assembly: AssemblyProduct("paimonDotMoeCompanion")]
-[assembly: AssemblyCopyright("Copyright © 2025 Nekkochan (Duy-Thanh). All right reserved")]
+[assembly: AssemblyCopyright("Copyright © 2025 @Nekkochan0x0007 (Duy-Thanh). All right reserved")]
 [assembly: AssemblyTrademark("paimonDotMoeCompanion")]
 [assembly: AssemblyCulture("")]
 
@@ -30,6 +30,6 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.0.1.1")]
+[assembly: AssemblyFileVersion("1.0.1.1")]
 [assembly: NeutralResourcesLanguage("en-US")]

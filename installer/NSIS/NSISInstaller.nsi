@@ -2,15 +2,13 @@
 
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "paimonDotMoeCompanion"
-!define PRODUCT_VERSION "1.0.1.0"
-!define PRODUCT_PUBLISHER "@Nekkochan (Duy Thanh)"
+!define PRODUCT_VERSION "1.0.1.1"
+!define PRODUCT_PUBLISHER "@Nekkochan0x0007 (Nguyen Duy Thanh)"
 !define PRODUCT_WEB_SITE "https://github.com/Duy-Thanh/PaimonDotMoeCompanion"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\paimonDotMoeCompanion.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
 !define PRODUCT_STARTMENU_REGVAL "NSIS:StartMenuDir"
-
-SetCompressor lzma
 
 ; MUI 1.67 compatible ------
 !include "MUI.nsh"
@@ -28,7 +26,6 @@ SetCompressor lzma
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; License page
-!define MUI_LICENSEPAGE_RADIOBUTTONS
 !insertmacro MUI_PAGE_LICENSE "..\..\LICENSE.txt"
 ; Components page
 !insertmacro MUI_PAGE_COMPONENTS
@@ -103,13 +100,10 @@ var ICONS_GROUP
 !insertmacro MUI_LANGUAGE "Turkish"
 !insertmacro MUI_LANGUAGE "Ukrainian"
 
-; Reserve files
-!insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
-
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
-OutFile "Setup.exe"
+OutFile "paimonDotMoeCompanionSetup.exe"
 InstallDir "$PROGRAMFILES\paimonDotMoeCompanion"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -120,6 +114,11 @@ Function .onInit
 FunctionEnd
 
 Section "Core Application Files" SEC01
+  SetOutPath "$INSTDIR"
+  SetOverwrite ifnewer
+  File "..\..\README.md"
+  File "..\..\LICENSE.txt"
+  File "..\..\changelog.html"
   SetOutPath "$INSTDIR\ar"
   SetOverwrite try
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\ar\AutoUpdater.NET.resources.dll"
@@ -207,10 +206,6 @@ Section "Core Application Files" SEC01
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\zh\AutoUpdater.NET.resources.dll"
   SetOutPath "$INSTDIR\zh-TW"
   File "..\..\paimonDotMoeCompanion\bin\x64\Release\zh-TW\AutoUpdater.NET.resources.dll"
-  SetOutPath "$INSTDIR"
-  SetOverwrite ifnewer
-  File "..\..\README.md"
-  File "..\..\changelog.html"
 
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -221,6 +216,7 @@ Section "Core Application Files" SEC01
 SectionEnd
 
 Section -AdditionalIcons
+  SetOutPath $INSTDIR
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   WriteIniStr "$INSTDIR\${PRODUCT_NAME}.url" "InternetShortcut" "URL" "${PRODUCT_WEB_SITE}"
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\Website.lnk" "$INSTDIR\${PRODUCT_NAME}.url"
@@ -260,8 +256,6 @@ Section Uninstall
   !insertmacro MUI_STARTMENU_GETFOLDER "Application" $ICONS_GROUP
   Delete "$INSTDIR\${PRODUCT_NAME}.url"
   Delete "$INSTDIR\uninst.exe"
-  Delete "$INSTDIR\changelog.html"
-  Delete "$INSTDIR\README.md"
   Delete "$INSTDIR\zh-TW\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\zh\AutoUpdater.NET.resources.dll"
   Delete "$INSTDIR\WindowsBase.dll"
@@ -319,6 +313,9 @@ Section Uninstall
   Delete "$INSTDIR\AutoUpdater.NET.pdb"
   Delete "$INSTDIR\AutoUpdater.NET.dll"
   Delete "$INSTDIR\ar\AutoUpdater.NET.resources.dll"
+  Delete "$INSTDIR\changelog.html"
+  Delete "$INSTDIR\LICENSE.txt"
+  Delete "$INSTDIR\README.md"
 
   Delete "$SMPROGRAMS\$ICONS_GROUP\Uninstall.lnk"
   Delete "$SMPROGRAMS\$ICONS_GROUP\Website.lnk"

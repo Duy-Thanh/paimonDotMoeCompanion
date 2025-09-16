@@ -197,7 +197,7 @@ namespace paimonDotMoeCompanion
         private void lnkAbout_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             logger.Log("Starting about project window...", LogLevel.Info);
-            AboutProject about = new AboutProject();
+            AboutProject about = new AboutProject(IsWindows11);
             about.ShowDialog();
             logger.Log("About project window closed", LogLevel.Info);
         }
